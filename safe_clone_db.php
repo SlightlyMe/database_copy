@@ -6,8 +6,8 @@
  * SQL script to recreate the database with realistic dummy data
  * 
  * Usage: 
- *   Command line: php clone_database.php [records_per_table]
- *   Browser: clone_database.php?records=50
+ *   Command line: php safe_clone_db.php [records_per_table]
+ *   Browser: safe_clone_db.php?records=50
  * 
  * Output: database_clone.sql - Complete recreation script with dummy data
  */

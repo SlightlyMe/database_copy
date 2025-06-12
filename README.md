@@ -21,7 +21,7 @@ Generate AI-friendly database documentation and create realistic dummy data for 
 ```bash
 # Download the main files
 wget https://raw.githubusercontent.com/yourusername/db-tools/main/generate_db_structure.php
-wget https://raw.githubusercontent.com/yourusername/db-tools/main/clone_database.php
+wget https://raw.githubusercontent.com/yourusername/db-tools/main/safe_clone_db.php
 wget https://raw.githubusercontent.com/yourusername/db-tools/main/config.php
 ```
 
@@ -113,10 +113,10 @@ SAMPLE DATA: [Hidden - use 'show' parameter to display actual data]
 
 ```bash
 # Generate clone script (25 records per table)
-php clone_database.php
+php safe_clone_db.php
 
 # Custom number of records
-php clone_database.php 100
+php safe_clone_db.php 100
 ```
 
 **Output: `database_clone.sql`**
@@ -151,14 +151,14 @@ git clone project
 cp .env.example .env
 # Edit .env with local credentials
 php generate_db_structure.php
-php clone_database.php 50
+php safe_clone_db.php 50
 mysql -u root -p < database_clone.sql
 ```
 
 ### For Testing & CI/CD
 ```bash
 # Generate test database
-php clone_database.php 1000
+php safe_clone_db.php 1000
 docker exec mysql mysql -u root -p < database_clone.sql
 # Run your test suite with realistic data
 ```
@@ -215,7 +215,7 @@ php generate_db_structure.php show
     Deny from all
 </Files>
 
-<Files "clone_database.php">
+<Files "safe_clone_db.php">
     Order allow,deny
     Deny from all
 </Files>
@@ -230,7 +230,7 @@ your-project/
 ├── .gitignore                    # Includes .env
 ├── config.php                    # Database connection handler
 ├── generate_db_structure.php     # Documentation generator
-├── clone_database.php            # Dummy data generator
+├── safe_clone_db.php            # Dummy data generator
 ├── .db_structure                 # Generated documentation
 └── database_clone.sql            # Generated clone script
 ```
@@ -246,7 +246,7 @@ http://localhost/generate_db_structure.php
 http://localhost/generate_db_structure.php?sensitive=show
 
 # Clone generator  
-http://localhost/clone_database.php?records=100
+http://localhost/safe_clone_db.php?records=100
 ```
 
 ### Multiple Environments
