@@ -7,7 +7,6 @@ Generate AI-friendly database documentation and create realistic dummy data for 
 ## ✨ Features
 
 - 🔍 **Smart Database Analysis** - Automatically maps your database structure, relationships, and constraints
-- 🤖 **AI-Optimized Documentation** - Generates `.db_structure` files perfect for ChatGPT, Claude, and other AI assistants  
 - 🎭 **Intelligent Dummy Data** - Creates realistic test data based on column names and types
 - 🔒 **Secure by Design** - Uses `.env` files to keep credentials safe
 - 🚀 **Zero Dependencies** - Pure PHP, works with any existing project
@@ -16,13 +15,11 @@ Generate AI-friendly database documentation and create realistic dummy data for 
 
 ## 🚦 Quick Start
 
-### 1. Download the Tools
+### 1. Download the Tool
 
 ```bash
-# Download the main files
-wget https://raw.githubusercontent.com/yourusername/db-tools/main/generate_db_structure.php
-wget https://raw.githubusercontent.com/yourusername/db-tools/main/clone_database.php
-wget https://raw.githubusercontent.com/yourusername/db-tools/main/config.php
+# Download the main file
+wget https://raw.githubusercontent.com/yourusername/db-tools/main/safe_clone_db.php
 ```
 
 ### 2. Create Your Environment File
@@ -65,58 +62,15 @@ GOOGLE_MAPS_API_KEY=your_google_maps_key
 
 ## 📖 Usage
 
-### Generate Database Documentation
-
-```bash
-# Generate structure (hides sensitive data by default)
-php generate_db_structure.php
-
-# Include row counts and sample data
-php generate_db_structure.php show
-```
-
-**Output: `.db_structure` file**
-```
-DATABASE STRUCTURE REFERENCE
-Generated: 2025-06-11 14:30:00
-Database: my_ecommerce_app
-================================================================================
-
-TABLE OF CONTENTS:
-  - users
-  - products  
-  - orders
-
-DATABASE SUMMARY:
-Total Tables: 3
-Total Rows: [Hidden - use 'show' parameter to display]
-
-TABLE: users
-----------------------------------------
-Description: Customer accounts and profiles
-Engine: InnoDB
-
-COLUMNS:
-Name                 Type                      Null     Key      Default
-----------------------------------------------------------------------------------------------------
-id                   int(11)                   NO       PRI      NULL
-email                varchar(255)              NO       UNI      NULL
-name                 varchar(255)              NO                NULL
-
-FOREIGN KEYS:
-  orders.user_id -> users.id
-
-SAMPLE DATA: [Hidden - use 'show' parameter to display actual data]
-```
 
 ### Clone Database with Dummy Data
 
 ```bash
 # Generate clone script (25 records per table)
-php clone_database.php
+php safe_clone_db.php
 
 # Custom number of records
-php clone_database.php 100
+php safe_clone_db.php 100
 ```
 
 **Output: `database_clone.sql`**
@@ -135,14 +89,6 @@ INSERT INTO `users` (`name`, `email`, `phone`) VALUES
 
 ## 🎯 Use Cases
 
-### For AI Assistance
-```bash
-# Generate clean documentation
-php generate_db_structure.php
-
-# Then paste .db_structure into ChatGPT/Claude:
-# "Here's my database structure. Help me write a query to..."
-```
 
 ### For Development Teams
 ```bash
@@ -150,15 +96,14 @@ php generate_db_structure.php
 git clone project
 cp .env.example .env
 # Edit .env with local credentials
-php generate_db_structure.php
-php clone_database.php 50
+php safe_clone_db.php 50
 mysql -u root -p < database_clone.sql
 ```
 
 ### For Testing & CI/CD
 ```bash
 # Generate test database
-php clone_database.php 1000
+php safe_clone_db.php 1000
 docker exec mysql mysql -u root -p < database_clone.sql
 # Run your test suite with realistic data
 ```
@@ -191,16 +136,6 @@ The cloner intelligently generates realistic data based on column names:
 - **Multiple environment support** - dev, staging, production
 - **Safe for version control** - `.env` files are gitignored
 
-### Sensitive Data Protection
-```bash
-# Safe for sharing (default)
-php generate_db_structure.php
-# Result: No row counts, no sample data
-
-# Full details (development only)
-php generate_db_structure.php show  
-# Result: Includes actual data
-```
 
 ### Server Protection
 ```apache
@@ -210,28 +145,17 @@ php generate_db_structure.php show
     Deny from all
 </Files>
 
-<Files "generate_db_structure.php">
+
+<Files "safe_clone_db.php">
     Order allow,deny
     Deny from all
 </Files>
-
-<Files "clone_database.php">
-    Order allow,deny
-    Deny from all
-</Files>
-```
-
-## 📁 File Structure
-
 ```
 your-project/
 ├── .env                          # Your credentials (NOT in git)
 ├── .env.example                  # Template (safe to commit)
 ├── .gitignore                    # Includes .env
-├── config.php                    # Database connection handler
-├── generate_db_structure.php     # Documentation generator
-├── clone_database.php            # Dummy data generator
-├── .db_structure                 # Generated documentation
+├── safe_clone_db.php            # Dummy data generator
 └── database_clone.sql            # Generated clone script
 ```
 
@@ -239,29 +163,23 @@ your-project/
 
 ### Browser Usage
 ```
-# Documentation generator
-http://localhost/generate_db_structure.php
-
-# With sensitive data
-http://localhost/generate_db_structure.php?sensitive=show
-
 # Clone generator  
-http://localhost/clone_database.php?records=100
+http://localhost/safe_clone_db.php?records=100
 ```
 
 ### Multiple Environments
 ```bash
 # Development
 cp .env.development .env
-php generate_db_structure.php
+php safe_clone_db.php
 
 # Staging  
 cp .env.staging .env
-php generate_db_structure.php
+php safe_clone_db.php
 
 # Production (documentation only)
 cp .env.production .env
-php generate_db_structure.php  # Never run cloner on production!
+php safe_clone_db.php  # Never run cloner on production!
 ```
 
 ## ⚠️ Important Security Notes
