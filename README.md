@@ -45,7 +45,25 @@ STRIPE_API_KEY=sk_test_your_stripe_key
 GOOGLE_MAPS_API_KEY=your_google_maps_key
 ```
 
-### 3. Secure Your Setup
+### 3. Create `my_db.php`
+
+```php
+<?php
+// my_db.php - uses environment variables for PDO
+$dsn = sprintf(
+    'mysql:host=%s;dbname=%s;charset=utf8mb4',
+    getenv('DB_HOST'),
+    getenv('DB_NAME')
+);
+$pdo = new PDO($dsn, getenv('DB_USER'), getenv('DB_PASS'), [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+]);
+
+$my_db = getenv('DB_NAME'); // used by example scripts
+```
+
+### 4. Secure Your Setup
 
 **Add to `.gitignore`:**
 ```gitignore

@@ -1,0 +1,4 @@
+# Never commit these!
+.env
+.env.local
+.env.production
